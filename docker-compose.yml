@@ -1,0 +1,470 @@
+services:
+  cfg1:
+    image: mongo:8.0
+    container_name: cfg1
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --configsvr --replSet cfgReplSet --port 27019
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "37191:27019"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - cfg1_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  cfg2:
+    image: mongo:8.0
+    container_name: cfg2
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --configsvr --replSet cfgReplSet --port 27019
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "37192:27019"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - cfg2_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  cfg3:
+    image: mongo:8.0
+    container_name: cfg3
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --configsvr --replSet cfgReplSet --port 27019
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "37193:27019"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - cfg3_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard1a:
+    image: mongo:8.0
+    container_name: shard1a
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard1 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27211:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard1a_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard1b:
+    image: mongo:8.0
+    container_name: shard1b
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard1 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27212:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard1b_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard1c:
+    image: mongo:8.0
+    container_name: shard1c
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard1 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27213:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard1c_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard2a:
+    image: mongo:8.0
+    container_name: shard2a
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard2 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27221:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard2a_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard2b:
+    image: mongo:8.0
+    container_name: shard2b
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard2 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27222:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard2b_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard2c:
+    image: mongo:8.0
+    container_name: shard2c
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard2 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27223:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard2c_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard3a:
+    image: mongo:8.0
+    container_name: shard3a
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard3 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27231:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard3a_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard3b:
+    image: mongo:8.0
+    container_name: shard3b
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard3 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27232:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard3b_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard3c:
+    image: mongo:8.0
+    container_name: shard3c
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard3 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27233:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard3c_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard4a:
+    image: mongo:8.0
+    container_name: shard4a
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard4 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27241:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard4a_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard4b:
+    image: mongo:8.0
+    container_name: shard4b
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard4 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27242:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard4b_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard4c:
+    image: mongo:8.0
+    container_name: shard4c
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard4 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27243:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard4c_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard5a:
+    image: mongo:8.0
+    container_name: shard5a
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard5 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27251:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard5a_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard5b:
+    image: mongo:8.0
+    container_name: shard5b
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard5 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27252:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard5b_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard5c:
+    image: mongo:8.0
+    container_name: shard5c
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard5 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27253:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard5c_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard6a:
+    image: mongo:8.0
+    container_name: shard6a
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard6 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27261:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard6a_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard6b:
+    image: mongo:8.0
+    container_name: shard6b
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard6 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27262:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard6b_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  shard6c:
+    image: mongo:8.0
+    container_name: shard6c
+    restart: unless-stopped
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongod --shardsvr --replSet shard6 --port 27018
+      --bind_ip_all --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "27263:27018"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+      - shard6c_data:/data/db
+    networks:
+      - mongo-shard-net
+
+  mongos:
+    image: mongo:8.0
+    container_name: mongos
+    restart: unless-stopped
+    depends_on:
+      - cfg1
+      - cfg2
+      - cfg3
+    command: >
+      bash -c "
+      cp /run/secrets/mongodb.key /tmp/mongodb.key &&
+      chmod 400 /tmp/mongodb.key &&
+      chown 999:999 /tmp/mongodb.key &&
+      exec mongos --configdb cfgReplSet/cfg1:27019,cfg2:27019,cfg3:27019
+      --bind_ip_all --port 27017 --keyFile /tmp/mongodb.key
+      "
+    ports:
+      - "37017:27017"
+    volumes:
+      - ./mongodb.key:/run/secrets/mongodb.key:ro
+    networks:
+      - mongo-shard-net
+
+networks:
+  mongo-shard-net:
+    driver: bridge
+
+volumes:
+  cfg1_data:
+  cfg2_data:
+  cfg3_data:
+  shard1a_data:
+  shard1b_data:
+  shard1c_data:
+  shard2a_data:
+  shard2b_data:
+  shard2c_data:
+  shard3a_data:
+  shard3b_data:
+  shard3c_data:
+  shard4a_data:
+  shard4b_data:
+  shard4c_data:
+  shard5a_data:
+  shard5b_data:
+  shard5c_data:
+  shard6a_data:
+  shard6b_data:
+  shard6c_data:
