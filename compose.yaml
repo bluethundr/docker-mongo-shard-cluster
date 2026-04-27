@@ -273,6 +273,84 @@ services:
       - "27263:27018"
     networks:
       - mongo-shard-net
+      
+  shard7a:
+    image: mongo:8.0
+    container_name: shard7a
+    command: >
+      mongod --shardsvr --replSet shard7 --port 27018
+      --bind_ip_all --dbpath /data/db
+    volumes:
+      - shard7a_data:/data/db
+    ports:
+      - "27271:27018"
+    networks:
+      - mongo-shard-net
+
+  shard7b:
+    image: mongo:8.0
+    container_name: shard7b
+    command: >
+      mongod --shardsvr --replSet shard7 --port 27018
+      --bind_ip_all --dbpath /data/db
+    volumes:
+      - shard7b_data:/data/db
+    ports:
+      - "27272:27018"
+    networks:
+      - mongo-shard-net
+
+  shard7c:
+    image: mongo:8.0
+    container_name: shard7c
+    command: >
+      mongod --shardsvr --replSet shard7 --port 27018
+      --bind_ip_all --dbpath /data/db
+    volumes:
+      - shard7c_data:/data/db
+    ports:
+      - "27273:27018"
+    networks:
+      - mongo-shard-net
+      
+  shard8a:
+    image: mongo:8.0
+    container_name: shard8a
+    command: >
+      mongod --shardsvr --replSet shard8 --port 27018
+      --bind_ip_all --dbpath /data/db
+    volumes:
+      - shard8a_data:/data/db
+    ports:
+      - "27281:27018"
+    networks:
+      - mongo-shard-net
+
+  shard8b:
+    image: mongo:8.0
+    container_name: shard8b
+    command: >
+      mongod --shardsvr --replSet shard8 --port 27018
+      --bind_ip_all --dbpath /data/db
+    volumes:
+      - shard8b_data:/data/db
+    ports:
+      - "27282:27018"
+    networks:
+      - mongo-shard-net
+
+  shard8c:
+    image: mongo:8.0
+    container_name: shard8c
+    command: >
+      mongod --shardsvr --replSet shard8 --port 27018
+      --bind_ip_all --dbpath /data/db
+    volumes:
+      - shard8c_data:/data/db
+    ports:
+      - "27283:27018"
+    networks:
+      - mongo-shard-net
 
   mongos:
     image: mongo:8.0
@@ -306,6 +384,21 @@ services:
       - "37017:27017"
     networks:
       - mongo-shard-net
+      
+  mongos2:
+    image: mongo:8.0
+    container_name: mongos2
+    command: >
+      mongos --configdb cfgReplSet/cfg1:27019,cfg2:27019,cfg3:27019
+      --bind_ip_all --port 27017
+    depends_on:
+      - cfg1
+      - cfg2
+      - cfg3
+    ports:
+      - "37018:27017"
+    networks:
+      - mongo-shard-net
 
 volumes:
   cfg1_data:
@@ -329,6 +422,12 @@ volumes:
   shard6a_data:
   shard6b_data:
   shard6c_data:
+  shard7a_data:
+  shard7b_data:
+  shard7c_data:
+  shard8a_data:
+  shard8b_data:
+  shard8c_data:
 
 networks:
   mongo-shard-net:
