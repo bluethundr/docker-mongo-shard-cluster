@@ -4,11 +4,19 @@ services:
   cfg1:
     image: mongo:8.0
     container_name: cfg1
-    command: >
-      mongod --configsvr --replSet cfgReplSet --port 27019
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command:
+      - bash
+      - -lc
+      - |
+        set -e
+        cp /mnt-key/mongodb.key /tmp/mongodb.key
+        chown 999:999 /tmp/mongodb.key
+        chmod 600 /tmp/mongodb.key
+        exec gosu mongodb mongod --configsvr --replSet cfgReplSet --port 27019 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth
     volumes:
       - cfg1_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "37191:27019"
     networks:
@@ -17,11 +25,19 @@ services:
   cfg2:
     image: mongo:8.0
     container_name: cfg2
-    command: >
-      mongod --configsvr --replSet cfgReplSet --port 27019
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command:
+      - bash
+      - -lc
+      - |
+        set -e
+        cp /mnt-key/mongodb.key /tmp/mongodb.key
+        chown 999:999 /tmp/mongodb.key
+        chmod 600 /tmp/mongodb.key
+        exec gosu mongodb mongod --configsvr --replSet cfgReplSet --port 27019 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth
     volumes:
       - cfg2_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "37192:27019"
     networks:
@@ -30,11 +46,19 @@ services:
   cfg3:
     image: mongo:8.0
     container_name: cfg3
-    command: >
-      mongod --configsvr --replSet cfgReplSet --port 27019
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command:
+      - bash
+      - -lc
+      - |
+        set -e
+        cp /mnt-key/mongodb.key /tmp/mongodb.key
+        chown 999:999 /tmp/mongodb.key
+        chmod 600 /tmp/mongodb.key
+        exec gosu mongodb mongod --configsvr --replSet cfgReplSet --port 27019 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth
     volumes:
       - cfg3_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "37193:27019"
     networks:
@@ -43,11 +67,11 @@ services:
   shard1a:
     image: mongo:8.0
     container_name: shard1a
-    command: >
-      mongod --shardsvr --replSet shard1 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard1 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard1a_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27211:27018"
     networks:
@@ -56,11 +80,11 @@ services:
   shard1b:
     image: mongo:8.0
     container_name: shard1b
-    command: >
-      mongod --shardsvr --replSet shard1 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard1 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard1b_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27212:27018"
     networks:
@@ -69,11 +93,11 @@ services:
   shard1c:
     image: mongo:8.0
     container_name: shard1c
-    command: >
-      mongod --shardsvr --replSet shard1 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard1 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard1c_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27213:27018"
     networks:
@@ -82,11 +106,11 @@ services:
   shard2a:
     image: mongo:8.0
     container_name: shard2a
-    command: >
-      mongod --shardsvr --replSet shard2 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard2 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard2a_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27221:27018"
     networks:
@@ -95,11 +119,11 @@ services:
   shard2b:
     image: mongo:8.0
     container_name: shard2b
-    command: >
-      mongod --shardsvr --replSet shard2 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard2 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard2b_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27222:27018"
     networks:
@@ -108,11 +132,11 @@ services:
   shard2c:
     image: mongo:8.0
     container_name: shard2c
-    command: >
-      mongod --shardsvr --replSet shard2 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard2 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard2c_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27223:27018"
     networks:
@@ -121,11 +145,11 @@ services:
   shard3a:
     image: mongo:8.0
     container_name: shard3a
-    command: >
-      mongod --shardsvr --replSet shard3 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard3 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard3a_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27231:27018"
     networks:
@@ -134,11 +158,11 @@ services:
   shard3b:
     image: mongo:8.0
     container_name: shard3b
-    command: >
-      mongod --shardsvr --replSet shard3 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard3 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard3b_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27232:27018"
     networks:
@@ -147,11 +171,11 @@ services:
   shard3c:
     image: mongo:8.0
     container_name: shard3c
-    command: >
-      mongod --shardsvr --replSet shard3 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard3 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard3c_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27233:27018"
     networks:
@@ -160,11 +184,11 @@ services:
   shard4a:
     image: mongo:8.0
     container_name: shard4a
-    command: >
-      mongod --shardsvr --replSet shard4 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard4 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard4a_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27241:27018"
     networks:
@@ -173,11 +197,11 @@ services:
   shard4b:
     image: mongo:8.0
     container_name: shard4b
-    command: >
-      mongod --shardsvr --replSet shard4 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard4 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard4b_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27242:27018"
     networks:
@@ -186,11 +210,11 @@ services:
   shard4c:
     image: mongo:8.0
     container_name: shard4c
-    command: >
-      mongod --shardsvr --replSet shard4 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard4 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard4c_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27243:27018"
     networks:
@@ -199,11 +223,11 @@ services:
   shard5a:
     image: mongo:8.0
     container_name: shard5a
-    command: >
-      mongod --shardsvr --replSet shard5 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard5 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard5a_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27251:27018"
     networks:
@@ -212,11 +236,11 @@ services:
   shard5b:
     image: mongo:8.0
     container_name: shard5b
-    command: >
-      mongod --shardsvr --replSet shard5 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard5 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard5b_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27252:27018"
     networks:
@@ -225,11 +249,11 @@ services:
   shard5c:
     image: mongo:8.0
     container_name: shard5c
-    command: >
-      mongod --shardsvr --replSet shard5 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard5 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard5c_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27253:27018"
     networks:
@@ -238,11 +262,11 @@ services:
   shard6a:
     image: mongo:8.0
     container_name: shard6a
-    command: >
-      mongod --shardsvr --replSet shard6 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard6 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard6a_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27261:27018"
     networks:
@@ -251,11 +275,11 @@ services:
   shard6b:
     image: mongo:8.0
     container_name: shard6b
-    command: >
-      mongod --shardsvr --replSet shard6 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard6 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard6b_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27262:27018"
     networks:
@@ -264,24 +288,24 @@ services:
   shard6c:
     image: mongo:8.0
     container_name: shard6c
-    command: >
-      mongod --shardsvr --replSet shard6 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard6 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard6c_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27263:27018"
     networks:
       - mongo-shard-net
-      
+
   shard7a:
     image: mongo:8.0
     container_name: shard7a
-    command: >
-      mongod --shardsvr --replSet shard7 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard7 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard7a_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27271:27018"
     networks:
@@ -290,11 +314,11 @@ services:
   shard7b:
     image: mongo:8.0
     container_name: shard7b
-    command: >
-      mongod --shardsvr --replSet shard7 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard7 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard7b_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27272:27018"
     networks:
@@ -303,24 +327,24 @@ services:
   shard7c:
     image: mongo:8.0
     container_name: shard7c
-    command: >
-      mongod --shardsvr --replSet shard7 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard7 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard7c_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27273:27018"
     networks:
       - mongo-shard-net
-      
+
   shard8a:
     image: mongo:8.0
     container_name: shard8a
-    command: >
-      mongod --shardsvr --replSet shard8 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard8 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard8a_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27281:27018"
     networks:
@@ -329,11 +353,11 @@ services:
   shard8b:
     image: mongo:8.0
     container_name: shard8b
-    command: >
-      mongod --shardsvr --replSet shard8 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard8 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard8b_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27282:27018"
     networks:
@@ -342,55 +366,95 @@ services:
   shard8c:
     image: mongo:8.0
     container_name: shard8c
-    command: >
-      mongod --shardsvr --replSet shard8 --port 27018
-      --bind_ip_all --dbpath /data/db
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard8 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
     volumes:
       - shard8c_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     ports:
       - "27283:27018"
     networks:
       - mongo-shard-net
+      
+  shard9a:
+    image: mongo:8.0
+    container_name: shard9a
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard9 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
+    volumes:
+      - shard9a_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
+    ports:
+      - "27291:27018"
+    networks:
+      - mongo-shard-net
+
+  shard9b:
+    image: mongo:8.0
+    container_name: shard9b
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard9 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
+    volumes:
+      - shard9b_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
+    ports:
+      - "27292:27018"
+    networks:
+      - mongo-shard-net
+
+  shard9c:
+    image: mongo:8.0
+    container_name: shard9c
+    restart: unless-stopped
+    command: ["bash","-lc","cp /mnt-key/mongodb.key /tmp/mongodb.key && chown 999:999 /tmp/mongodb.key && chmod 600 /tmp/mongodb.key && exec gosu mongodb mongod --shardsvr --replSet shard9 --port 27018 --bind_ip_all --dbpath /data/db --keyFile /tmp/mongodb.key --auth"]
+    volumes:
+      - shard9c_data:/data/db
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
+    ports:
+      - "27293:27018"
+    networks:
+      - mongo-shard-net
+
 
   mongos:
     image: mongo:8.0
     container_name: mongos
-    command: >
-      mongos --configdb cfgReplSet/cfg1:27019,cfg2:27019,cfg3:27019
-      --bind_ip_all --port 27017
+    restart: unless-stopped
+    command:
+      - bash
+      - -lc
+      - |
+        set -e
+        cp /mnt-key/mongodb.key /tmp/mongodb.key
+        chown 999:999 /tmp/mongodb.key
+        chmod 600 /tmp/mongodb.key
+        exec gosu mongodb mongos --configdb cfgReplSet/cfg1:27019,cfg2:27019,cfg3:27019 --bind_ip_all --port 27017 --keyFile /tmp/mongodb.key
+    volumes:
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     depends_on:
       - cfg1
       - cfg2
       - cfg3
-      - shard1a
-      - shard1b
-      - shard1c
-      - shard2a
-      - shard2b
-      - shard2c
-      - shard3a
-      - shard3b
-      - shard3c
-      - shard4a
-      - shard4b
-      - shard4c
-      - shard5a
-      - shard5b
-      - shard5c
-      - shard6a
-      - shard6b
-      - shard6c
     ports:
       - "37017:27017"
     networks:
       - mongo-shard-net
-      
+
   mongos2:
     image: mongo:8.0
     container_name: mongos2
-    command: >
-      mongos --configdb cfgReplSet/cfg1:27019,cfg2:27019,cfg3:27019
-      --bind_ip_all --port 27017
+    restart: unless-stopped
+    command:
+      - bash
+      - -lc
+      - |
+        set -e
+        cp /mnt-key/mongodb.key /tmp/mongodb.key
+        chown 999:999 /tmp/mongodb.key
+        chmod 600 /tmp/mongodb.key
+        exec gosu mongodb mongos --configdb cfgReplSet/cfg1:27019,cfg2:27019,cfg3:27019 --bind_ip_all --port 27017 --keyFile /tmp/mongodb.key
+    volumes:
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
     depends_on:
       - cfg1
       - cfg2
@@ -399,6 +463,31 @@ services:
       - "37018:27017"
     networks:
       - mongo-shard-net
+      
+  mongos3:
+    image: mongo:8.0
+    container_name: mongos3
+    restart: unless-stopped
+    command:
+      - bash
+      - -lc
+      - |
+        set -e
+        cp /mnt-key/mongodb.key /tmp/mongodb.key
+        chown 999:999 /tmp/mongodb.key
+        chmod 600 /tmp/mongodb.key
+        exec gosu mongodb mongos --configdb cfgReplSet/cfg1:27019,cfg2:27019,cfg3:27019 --bind_ip_all --port 27017 --keyFile /tmp/mongodb.key
+    volumes:
+      - D:/MongoDB/mongodb.key:/mnt-key/mongodb.key:ro
+    depends_on:
+      - cfg1
+      - cfg2
+      - cfg3
+    ports:
+      - "37019:27017"
+    networks:
+      - mongo-shard-net
+
 
 volumes:
   cfg1_data:
@@ -428,6 +517,9 @@ volumes:
   shard8a_data:
   shard8b_data:
   shard8c_data:
+  shard9a_data:
+  shard9b_data:
+  shard9c_data:
 
 networks:
   mongo-shard-net:
